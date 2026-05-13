@@ -1,0 +1,210 @@
+.about-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 4rem 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  padding: 2rem;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 800px) {
+  .about-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.hologram-wrapper {
+  flex-shrink: 0;
+  width: 320px;
+  height: 320px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hologram-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  z-index: -1;
+  filter: blur(30px);
+}
+
+.about-hero-text {
+  flex: 1;
+}
+
+.about-hero-text h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.05em;
+}
+
+.about-intro-section {
+    padding: 3rem;
+    text-align: left;
+}
+
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.section-head h2 {
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 0.1em;
+}
+
+.heavy-text {
+    font-size: 1.1rem !important;
+    line-height: 1.8;
+    color: #e2e8f0 !important;
+}
+
+.center-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 4rem;
+    letter-spacing: 2px;
+}
+
+.workflow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2rem;
+}
+
+.workflow-item {
+    position: relative;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: all 0.4s;
+}
+
+.workflow-item:hover {
+    border-color: #6366f1;
+    transform: translateY(-8px);
+}
+
+.step-num {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 3rem;
+    font-weight: 950;
+    opacity: 0.05;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.workflow-item h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.workflow-item p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.icon-purple { color: #8b5cf6; }
+.icon-blue { color: #22d3ee; }
+.icon-pink { color: #f43f5e; }
+.icon-green { color: #10b981; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.about-card {
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.about-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.neon-blue { color: #22d3ee; box-shadow: 0 0 20px rgba(34, 211, 238, 0.2); border-color: rgba(34, 211, 238, 0.3) !important; }
+.neon-purple { color: #8b5cf6; box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.3) !important; }
+.neon-pink { color: #f43f5e; box-shadow: 0 0 20px rgba(244, 63, 94, 0.2); border-color: rgba(244, 63, 94, 0.3) !important; }
+.neon-green { color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.3) !important; }
+
+.about-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.about-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.about-footer {
+  text-align: center;
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.about-footer h2 {
+  font-size: 2.5rem;
+  color: #fff;
+}
+
+.about-footer p {
+  color: #94a3b8;
+  max-width: 600px;
+}
+
+.footer-links {
+  margin-top: 2rem;
+}

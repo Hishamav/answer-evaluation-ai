@@ -1,0 +1,59 @@
+/* Reuse core layout from departments, but add class-specific styling */
+@import './Departments.css';
+
+.class-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pill-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: var(--primary-color);
+}
+
+.semester-info {
+  font-size: 0.9rem;
+  background: #f8faff;
+  padding: 12px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-color);
+  color: #4b5563;
+}
+
+/* Mobile Responsiveness for Classes */
+@media (max-width: 600px) {
+  .class-pills {
+    gap: 0.35rem;
+  }
+  
+  .pill-item {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+  
+  .semester-info {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+
+  .inherited-config-grid {
+      grid-template-columns: 1fr !important;
+  }
+}
+
+.inherited-config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}

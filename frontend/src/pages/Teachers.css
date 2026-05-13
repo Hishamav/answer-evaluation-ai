@@ -1,0 +1,177 @@
+.scrollable-form {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.scrollable-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-form::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.credentials-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.success-banner {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #166534;
+}
+
+.success-banner svg {
+  margin-bottom: 10px;
+}
+
+.credential-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cred-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.cred-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cred-info span {
+  font-size: 0.8rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cred-info strong {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.password-text {
+  font-family: monospace;
+  font-size: 1.1rem !important;
+  color: var(--primary-color) !important;
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  background: transparent;
+  color: var(--primary-color);
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: #f0f1ff;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.row-inactive td {
+  opacity: 0.6;
+}
+
+.btn-action-sm {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-red {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.btn-red:hover {
+  background: #fca5a5;
+}
+
+.btn-green {
+  background: #dcfce7;
+  color: #22c55e;
+}
+
+.btn-green:hover {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+/* Mobile Responsiveness for Teachers */
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .cred-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .copy-btn {
+    width: 100%;
+    justify-content: center;
+    background: #f0f1ff;
+  }
+}

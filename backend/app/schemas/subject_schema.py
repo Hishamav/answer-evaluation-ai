@@ -6,7 +6,7 @@ from app.schemas.teacher_schema import TeacherResponse
 class SubjectBase(BaseModel):
     name: str
     class_id: int
-    teacher_id: int
+    teacher_id: Optional[int] = None
 
 class SubjectCreate(SubjectBase):
     pass

@@ -12,6 +12,7 @@ import {
   Users, 
   BookOpen, 
   Calendar,
+  CalendarDays,
   ChevronLeft,
   ChevronRight,
   X,
@@ -59,7 +60,7 @@ const Sidebar = ({ user, isOpen, setIsOpen, isCollapsed, setIsCollapsed }) => {
               <Calendar size={20} /> {!isCollapsed && <span>Class Timetable</span>}
             </NavLink>
             <NavLink to="/student-results" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''} ${isCollapsed ? 'collapsed' : ''}`} onClick={() => window.innerWidth < 768 && setIsOpen(false)}>
-              <Award size={20} /> {!isCollapsed && <span>Results</span>}
+              <Award size={20} /> {!isCollapsed && <span>My Results</span>}
             </NavLink>
           </>
         ) : (

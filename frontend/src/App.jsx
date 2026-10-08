@@ -16,12 +16,13 @@ import Login from './components/Login';
 import TopHeader from './components/TopHeader';
 import StudentClassTimetable from './pages/StudentClassTimetable';
 import StudentResults from './pages/StudentResults';
+import StudentExamTimetable from './pages/StudentExamTimetable';
 import { ToastProvider } from './components/Toast';
 import ConfirmDialog from './components/ConfirmDialog';
 import { LogOut } from 'lucide-react';
 import './App.css';
 
-function PageTransitionHandler({ setLoading, user, handleLogout }) {
+function PageTransitionHandler({ setLoading, user, handleLogout, setUser }) {
   const location = useLocation();
   useEffect(() => {
     setLoading(true);
@@ -132,6 +133,7 @@ function AppContent() {
                 <>
                   <Route path="/" element={<Navigate to="/student-class-timetable" replace />} />
                   <Route path="/student-class-timetable" element={<StudentClassTimetable user={user} />} />
+                  <Route path="/student-exam-timetable" element={<StudentExamTimetable user={user} />} />
                   <Route path="/student-results" element={<StudentResults user={user} />} />
                   <Route path="*" element={<Navigate to="/student-class-timetable" replace />} />
                 </>

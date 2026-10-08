@@ -11,8 +11,8 @@ class TimetableEntry(Base):
     start_time = Column(String, nullable=False) # Store as string for easier HH:mm management in UI
     end_time = Column(String, nullable=False)
     
-    subject_id = Column(Integer, ForeignKey("subjects.id"), nullable=True)
-    teacher_id = Column(Integer, ForeignKey("teachers_registry.id"), nullable=True)
+    subject_id = Column(Integer, ForeignKey("subjects.id", ondelete="SET NULL"), nullable=True)
+    teacher_id = Column(Integer, ForeignKey("teachers_registry.id", ondelete="SET NULL"), nullable=True)
     
     is_break = Column(Boolean, default=False)
     label = Column(String, nullable=True) # e.g., "Lunch Break"

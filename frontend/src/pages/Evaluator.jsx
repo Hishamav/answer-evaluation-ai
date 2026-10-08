@@ -82,6 +82,7 @@ export default function Evaluator() {
         try {
             const state = JSON.parse(savedState);
             if (state.step) setStep(state.step);
+            if (state.evalMode) setEvalMode(state.evalMode);
             if (state.selectedClassId) setSelectedClassId(state.selectedClassId);
             if (state.selectedSubjectId) setSelectedSubjectId(state.selectedSubjectId);
             if (state.studentDetails) setStudentDetails(state.studentDetails);
@@ -103,6 +104,7 @@ export default function Evaluator() {
   useEffect(() => {
     const state = {
         step,
+        evalMode,
         selectedClassId,
         selectedSubjectId,
         studentDetails,
@@ -111,7 +113,7 @@ export default function Evaluator() {
         result
     };
     localStorage.setItem('evaluatorState', JSON.stringify(state));
-  }, [step, selectedClassId, selectedSubjectId, studentDetails, schema, sections, result]);
+  }, [step, evalMode, selectedClassId, selectedSubjectId, studentDetails, schema, sections, result]);
 
   const fetchStudents = async () => {
     try {
@@ -134,6 +136,9 @@ export default function Evaluator() {
   useEffect(() => { if (bulkFiles.length > 0) saveFileLocally('bulkFiles', bulkFiles); }, [bulkFiles]);
 
   const changeStep = (newStep) => {
+    if (newStep < 3) {
+      setResult(null);
+    }
     setStepLoading(true);
     setTimeout(() => {
         setStep(newStep);
@@ -483,13 +488,13 @@ export default function Evaluator() {
           <div className="evaluation-mode-toggle" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
               <button 
                 className={`mode-btn ${evalMode === 'single' ? 'active' : ''}`}
-                onClick={() => { setEvalMode('single'); setStep(1); setStudentDetails(null); }}
+                onClick={() => { resetEvaluator(); setEvalMode('single'); }}
               >
                   Standard Profile
               </button>
               <button 
                 className={`mode-btn ${evalMode === 'bulk' ? 'active' : ''}`}
-                onClick={() => { setEvalMode('bulk'); setStep(1); setStudentDetails(null); }}
+                onClick={() => { resetEvaluator(); setEvalMode('bulk'); }}
               >
                   Batch Assessment
               </button>
@@ -508,7 +513,17 @@ export default function Evaluator() {
             <div className="active-student-pill glass-panel" style={{ marginTop: '1.5rem' }}>
               <UserCheck size={16} />
               <span>Verifying: <strong>{studentDetails.name}</strong> ({studentDetails.registration_id || 'ID#'+studentDetails.id})</span>
-              <button className="reset-student-btn" onClick={() => { setStudentDetails(null); setSchema(null); changeStep(1); setResult(null); setStudentFilter(''); }}>
+              <button className="reset-student-btn" onClick={() => { 
+                setStudentDetails(null); 
+                setSchema(null); 
+                changeStep(1); 
+                setResult(null); 
+                setStudentFilter(''); 
+                setStudentFile(null); 
+                setModelFile(null); 
+                setBulkFiles([]); 
+                indexedDB.deleteDatabase(dbName);
+              }}>
                 <RefreshCw size={14} />
               </button>
             </div>
@@ -537,6 +552,11 @@ export default function Evaluator() {
                             setSelectedSubjectId('');
                             setStudentDetails(null);
                             setStudentFilter('');
+                            setResult(null);
+                            setStudentFile(null);
+                            setModelFile(null);
+                            setBulkFiles([]);
+                            indexedDB.deleteDatabase(dbName);
                         }}
                         placeholder="Select Class"
                     />
@@ -552,6 +572,11 @@ export default function Evaluator() {
                             setSelectedSubjectId(val);
                             setStudentDetails(null);
                             setStudentFilter('');
+                            setResult(null);
+                            setStudentFile(null);
+                            setModelFile(null);
+                            setBulkFiles([]);
+                            indexedDB.deleteDatabase(dbName);
                         }}
                         placeholder="Select Subject"
                     />
@@ -852,7 +877,7 @@ export default function Evaluator() {
         </>
       )}
 
-       {result && result.isBulk && (
+        {result && result.isBulk && (
           <BulkResultGrid 
             result={result} 
             studentDetails={studentDetails} 
@@ -862,6 +887,7 @@ export default function Evaluator() {
             classId={selectedClassId}
             subjectId={selectedSubjectId}
             onPublishSuccess={resetEvaluator}
+            onReset={resetEvaluator}
           />
       )}
 
@@ -878,6 +904,7 @@ export default function Evaluator() {
             specializationName={studentDetails?.academic_class?.course?.specialization?.name || 'N/A'}
             subjectId={selectedSubjectId}
             onPublishSuccess={resetEvaluator}
+            onReset={resetEvaluator}
           />
       )}
 

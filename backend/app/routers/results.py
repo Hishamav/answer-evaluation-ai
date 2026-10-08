@@ -64,7 +64,7 @@ def publish_result(result_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Result published"}
 
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, joinedload  # noqa: F811
 
 @router.get("/")
 def get_all_results(db: Session = Depends(get_db)):
@@ -79,7 +79,10 @@ def get_student_results(student_id: int, db: Session = Depends(get_db)):
     return db.query(Result).options(
         joinedload(Result.subject),
         joinedload(Result.academic_class)
-    ).filter(Result.student_id == student_id, Result.is_published == True).all()
+    ).filter(
+        Result.student_id == student_id,
+        Result.is_published == True  # noqa: E712
+    ).all()
 
 @router.get("/class/{class_id}/subject/{subject_id}")
 def get_class_results(class_id: int, subject_id: int, db: Session = Depends(get_db)):

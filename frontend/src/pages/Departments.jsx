@@ -11,7 +11,8 @@ import {
   BookOpen,
   Calendar,
   Check,
-  Star
+  Star,
+  Layers
 } from 'lucide-react';
 import { useToast } from '../components/Toast';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -163,9 +164,14 @@ export default function Departments() {
         toast.success("Deleted", "Item removed successfully.");
         setShowDeleteModal(false);
         fetchData();
+      } else {
+        const data = await res.json();
+        toast.error("Error", data.detail || "Action failed.");
       }
     } catch (error) {
         toast.error("Error", "Action failed.");
+    } finally {
+        setShowDeleteModal(false);
     }
   };
 
@@ -270,10 +276,17 @@ export default function Departments() {
               </div>
               <div className="card-content">
                 <h3>{item.name}</h3>
-                {activeTab === 'courses' && item.specialization && (
+                {activeTab === 'courses' && (
+                  <>
+                    {item.specialization && (
+                      <div className="dept-meta-info" style={{marginBottom: '8px'}}>
+                          <span className="meta-badge"><Star size={12} /> {item.specialization.name}</span>
+                      </div>
+                    )}
                     <div className="dept-meta-info" style={{marginBottom: '8px'}}>
-                        <span className="meta-badge"><Star size={12} /> {item.specialization.name}</span>
+                        <span className="meta-badge"><Building2 size={12} /> {item.departments?.map(d => d.name).join(', ') || 'No Departments'}</span>
                     </div>
+                  </>
                 )}
                 {activeTab === 'depts' && (
                   <>
@@ -305,6 +318,7 @@ export default function Departments() {
                 {activeTab === 'depts' && <th>Year</th>}
                 {activeTab === 'depts' && <th>Mapped Courses</th>}
                 {activeTab === 'courses' && <th>Specialization</th>}
+                {activeTab === 'courses' && <th>Departments</th>}
                 <th style={{ width: '120px', textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
@@ -318,7 +332,10 @@ export default function Departments() {
                     <td>{item.courses?.map(c => c.name).join(', ') || 'No Courses'}</td>
                   )}
                   {activeTab === 'courses' && (
-                    <td>{item.specialization?.name || '-'}</td>
+                    <>
+                      <td>{item.specialization?.name || '-'}</td>
+                      <td>{item.departments?.map(d => d.name).join(', ') || 'No Departments'}</td>
+                    </>
                   )}
                   <td style={{ textAlign: 'right' }}>
                     <div className="nexus-action-control" style={{ justifyContent: 'flex-end' }}>
@@ -417,6 +434,7 @@ export default function Departments() {
                             placeholder="Select Specialization"
                         />
                     </div>
+
                     <div className="form-group" style={{marginTop: '10px'}}>
                     <label>Course Syllabus Overview</label>
                         <textarea 

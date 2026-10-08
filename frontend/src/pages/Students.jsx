@@ -136,10 +136,18 @@ export default function Students() {
       if (entryMode === 'single') {
         const url = isEditing ? `${API_BASE_URL}/students/${editingStudentId}` : `${API_BASE_URL}/students/`;
         const method = isEditing ? 'PUT' : 'POST';
+        
+        const payload = {
+          ...studentForm,
+          class_id: studentForm.class_id ? Number(studentForm.class_id) : null,
+          registration_id: studentForm.registration_id || null,
+          phone: studentForm.phone || null
+        };
+
         const res = await fetch(url, {
           method,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(studentForm)
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (res.ok) {
@@ -155,10 +163,20 @@ export default function Students() {
         }
       } else {
         // Bulk mode
+        const payload = {
+          students: bulkStudents.map(({name, email, registration_id, phone, class_id}) => ({
+            name,
+            email,
+            registration_id: registration_id || null,
+            phone: phone || null,
+            class_id: class_id ? Number(class_id) : null
+          }))
+        };
+
         const res = await fetch(`${API_BASE_URL}/students/bulk`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ students: bulkStudents.map(({name, email, registration_id, phone, class_id}) => ({name, email, registration_id, phone, class_id})) })
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (res.ok) {

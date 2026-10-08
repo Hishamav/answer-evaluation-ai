@@ -93,9 +93,14 @@ export default function Subjects() {
         toast.success("Deleted", "Subject removed successfully.");
         setShowDeleteModal(false);
         fetchData();
+      } else {
+        const data = await res.json();
+        toast.error("Error", data.detail || "Could not delete subject.");
       }
     } catch (error) {
       toast.error("Error", "Could not delete subject.");
+    } finally {
+      setShowDeleteModal(false);
     }
   };
 
@@ -118,6 +123,8 @@ export default function Subjects() {
 
     try {
       let successCount = 0;
+      let lastErrorMessage = "";
+      
       for (const cls of selectedClasses) {
         const isExisting = cls.original_id;
         const url = isExisting ? `${API_BASE_URL}/subjects/${cls.original_id}` : `${API_BASE_URL}/subjects/`;
@@ -129,16 +136,26 @@ export default function Subjects() {
           body: JSON.stringify({
             name: subjectForm.name,
             class_id: cls.id,
-            teacher_id: cls.teacher_id
+            teacher_id: (cls.teacher_id === '' || cls.teacher_id === undefined) ? null : Number(cls.teacher_id)
           })
         });
-        if (res.ok) successCount++;
+        
+        if (res.ok) {
+          successCount++;
+        } else {
+          const data = await res.json();
+          lastErrorMessage = (data.detail && typeof data.detail === 'object') 
+            ? (data.detail[0]?.msg || JSON.stringify(data.detail)) 
+            : (data.detail || "Failed to save subject.");
+        }
       }
 
       if (successCount > 0) {
         toast.success("Success", isEditing ? "Updates saved." : `Registered ${successCount} subjects.`);
         setShowModal(false);
         fetchData();
+      } else {
+        toast.error("Creation Failed", lastErrorMessage || "Could not register subject.");
       }
     } catch (error) {
       toast.error("Error", "Network error while saving.");
@@ -329,7 +346,7 @@ export default function Subjects() {
                               {cls.original_id && <span style={{ fontSize: '0.65rem', background: '#e0f2fe', color: '#0369a1', padding: '2px 6px', borderRadius: '4px' }}>Existing Record</span>}
                             </div>
                             <NexusSelect
-                              options={teachers.filter(t => t.is_active).map(t => ({ label: t.name, value: t.id }))}
+                            options={teachers.map(t => ({ label: t.name, value: t.id }))}
                               value={cls.teacher_id}
                               onChange={val => {
                                 const next = [...selectedClasses];

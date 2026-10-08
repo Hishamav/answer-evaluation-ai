@@ -1,19 +1,25 @@
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+import bcrypt
 from app.models.user import User
 from app.schemas.auth import UserCreate
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+def get_password_hash(password: str) -> str:
+    # Bcrypt has a 72-byte limit on passwords.
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
+    return hashed.decode('utf-8')
 
-def get_password_hash(password: str):
-    # Bcrypt has a 72-byte limit on passwords. We truncate to prevent errors.
-    safe_pwd = password[:72] if len(password) > 72 else password
-    return pwd_context.hash(safe_pwd)
-
-def verify_password(plain_password: str, hashed_password: str):
-    # Truncate input password to match original hashing logic
-    safe_pwd = plain_password[:72] if len(plain_password) > 72 else plain_password
-    return pwd_context.verify(safe_pwd, hashed_password)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        plain_bytes = plain_password.encode('utf-8')
+        if len(plain_bytes) > 72:
+            plain_bytes = plain_bytes[:72]
+        hashed_bytes = hashed_password.encode('utf-8')
+        return bcrypt.checkpw(plain_bytes, hashed_bytes)
+    except Exception:
+        return False
 
 def create_user(db: Session, user: UserCreate):
     db_user = User(

@@ -24,15 +24,27 @@ class TeacherSimple(BaseModel):
     id: int
     name: str
 
+    class Config:
+        from_attributes = True
+
 class SubjectSimple(BaseModel):
     id: int
     name: str
+
+    class Config:
+        from_attributes = True
 
 class ClassSimple(BaseModel):
     id: int
     name: str
 
+    class Config:
+        from_attributes = True
+
 class TimetableDetailResponse(TimetableEntryResponse):
     subject: Optional[SubjectSimple] = None
     teacher: Optional[TeacherSimple] = None
     academic_class: ClassSimple
+
+    class Config:
+        from_attributes = True

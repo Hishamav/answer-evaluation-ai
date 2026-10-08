@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { Download, Eye, FileText, User, CheckCircle, XCircle, FolderDown, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Download, Eye, FileText, User, CheckCircle, XCircle, FolderDown, X, RefreshCw } from 'lucide-react';
 import ResultCard from './ResultCard';
 import ConfirmDialog from './ConfirmDialog';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import './ResultCard.css'; // Reuse some styles
 
-export default function BulkResultGrid({ result, students, schema, subjectName, classId, subjectId, onPublishSuccess }) {
+export default function BulkResultGrid({ result, students, schema, subjectName, classId, subjectId, onPublishSuccess, onReset }) {
   const [selectedResult, setSelectedResult] = useState(null);
   const [showConfirmPublish, setShowConfirmPublish] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ isOpen: false, title: '', message: '', type: 'info' });
+
+  useEffect(() => {
+    setSelectedResult(null);
+    setShowConfirmPublish(false);
+    setAlertConfig({ isOpen: false, title: '', message: '', type: 'info' });
+  }, [result]);
 
   const showAlert = (title, message, type = 'info') => {
     setAlertConfig({ isOpen: true, title, message, type });
@@ -249,6 +255,12 @@ export default function BulkResultGrid({ result, students, schema, subjectName, 
               </div>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
+              {onReset && (
+                  <button className="btn btn-secondary bulk-export-btn" onClick={onReset} style={{ background: '#f8fafc', color: '#64748b', border: '1px solid #e2e8f0' }}>
+                      <RefreshCw size={20} />
+                      <span>Start New</span>
+                  </button>
+              )}
               <button className="btn btn-secondary bulk-export-btn" onClick={handleBulkExport} style={{ background: 'white', color: 'var(--primary-color)', border: '1px solid #e2e8f0' }}>
                   <Download size={20} />
                   <span>Bulk PDF</span>

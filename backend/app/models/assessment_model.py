@@ -24,7 +24,7 @@ class ExamTimetableEntry(Base):
     id = Column(Integer, primary_key=True, index=True)
     assessment_id = Column(Integer, ForeignKey("assessments.id"), nullable=False)
     class_id = Column(Integer, ForeignKey("classes.id"), nullable=False)
-    subject_id = Column(Integer, ForeignKey("subjects.id"), nullable=False)
+    subject_id = Column(Integer, ForeignKey("subjects.id", ondelete="CASCADE"), nullable=False)
     exam_date = Column(Date, nullable=False)
     start_time = Column(String, nullable=False)
     end_time = Column(String, nullable=False)

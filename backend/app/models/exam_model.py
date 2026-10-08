@@ -7,7 +7,7 @@ class ExamModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    subject_id = Column(Integer, ForeignKey("subjects.id"), nullable=False)
+    subject_id = Column(Integer, ForeignKey("subjects.id", ondelete="CASCADE"), nullable=False)
     class_id = Column(Integer, ForeignKey("classes.id"), nullable=False)
     exam_date = Column(Date, nullable=False)
     start_time = Column(Time, nullable=False)

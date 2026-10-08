@@ -1,17 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { Award, FileText, CheckCircle2, Download, Terminal, Layers, X } from 'lucide-react';
+import { Award, FileText, CheckCircle2, Download, Terminal, Layers, X, RefreshCw } from 'lucide-react';
 import ConfirmDialog from './ConfirmDialog';
 import ThreeScore from './ThreeScore';
 import './ResultCard.css';
 
-export default function ResultCard({ result: fullResult, studentDetails, subjectName, className, courseName, specializationName, subjectId, hidePublish = false, students = [], filename = '', onPublishSuccess }) {
+export default function ResultCard({ result: fullResult, studentDetails, subjectName, className, courseName, specializationName, subjectId, hidePublish = false, students = [], filename = '', onPublishSuccess, onReset }) {
   const containerRef = useRef(null);
   const [displayScore, setDisplayScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [alertConfig, setAlertConfig] = useState({ isOpen: false, title: '', message: '', type: 'success' });
   const [showConfirmPublish, setShowConfirmPublish] = useState(false);
   const ITEMS_PER_PAGE = 5;
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setShowConfirmPublish(false);
+  }, [fullResult]);
 
   const showAlert = (title, message, type = 'success') => {
     setAlertConfig({ isOpen: true, title, message, type });
@@ -399,6 +404,12 @@ export default function ResultCard({ result: fullResult, studentDetails, subject
         )}
       </div>
       <div className="result-footer-actions" style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+        {onReset && (
+            <button className="btn btn-secondary export-pdf-btn" onClick={onReset} style={{ background: '#f8fafc', color: '#64748b', border: '1px solid #e2e8f0' }}>
+                <RefreshCw size={20} />
+                <span>Start New</span>
+            </button>
+        )}
         <button
             className="btn btn-secondary export-pdf-btn"
             onClick={handleGeneratePDF}

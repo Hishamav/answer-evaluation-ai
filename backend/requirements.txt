@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+alembic
+numpy
+scikit-learn
+sentence-transformers
+easyocr
+pypdf
+python-docx
+pillow
+passlib[bcrypt]
+python-multipart
+email-validator

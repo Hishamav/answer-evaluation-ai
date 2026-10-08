@@ -20,6 +20,18 @@ class CourseBase(BaseModel):
     name: str
     description: Optional[str] = None
 
+# Department Schemas
+class DepartmentBase(BaseModel):
+    name: str
+    year: str
+    description: Optional[str] = None
+
+class DepartmentMinResponse(DepartmentBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
 class CourseCreate(CourseBase):
     specialization_id: Optional[int] = None
 
@@ -27,15 +39,10 @@ class CourseResponse(CourseBase):
     id: int
     specialization_id: Optional[int] = None
     specialization: Optional[SpecializationResponse] = None
+    departments: List[DepartmentMinResponse] = []
 
     class Config:
         from_attributes = True
-
-# Department Schemas
-class DepartmentBase(BaseModel):
-    name: str
-    year: str
-    description: Optional[str] = None
 
 class DepartmentCreate(DepartmentBase):
     course_ids: List[int] = []

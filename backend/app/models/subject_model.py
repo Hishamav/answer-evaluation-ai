@@ -8,7 +8,7 @@ class SubjectModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=False)
     class_id = Column(Integer, ForeignKey("classes.id"), nullable=False)
-    teacher_id = Column(Integer, ForeignKey("teachers_registry.id"), nullable=False)
+    teacher_id = Column(Integer, ForeignKey("teachers_registry.id", ondelete="SET NULL"), nullable=True)
 
     academic_class = relationship("ClassModel", back_populates="subjects")
     teacher = relationship("Teacher", back_populates="subjects")

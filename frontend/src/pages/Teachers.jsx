@@ -131,6 +131,9 @@ export default function Teachers() {
       if (res.ok) {
         toast.success("Removed", "Teacher removed from registry.");
         fetchData();
+      } else {
+        const data = await res.json();
+        toast.error("Error", data.detail || "Could not remove teacher.");
       }
     } catch (error) {
       toast.error("Error", "Could not remove teacher.");

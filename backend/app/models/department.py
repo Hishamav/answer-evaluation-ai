@@ -6,8 +6,8 @@ from app.database import Base
 department_courses = Table(
     "department_courses",
     Base.metadata,
-    Column("department_id", Integer, ForeignKey("departments.id"), primary_key=True),
-    Column("course_id", Integer, ForeignKey("courses.id"), primary_key=True)
+    Column("department_id", Integer, ForeignKey("departments.id", ondelete="CASCADE"), primary_key=True),
+    Column("course_id", Integer, ForeignKey("courses.id", ondelete="CASCADE"), primary_key=True)
 )
 
 class Specialization(Base):

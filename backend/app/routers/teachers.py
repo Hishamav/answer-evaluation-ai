@@ -52,6 +52,13 @@ def delete_teacher(teacher_id: int, db: Session = Depends(get_db)):
     if not db_teacher:
         raise HTTPException(status_code=404, detail="Teacher not found")
     
+    # Clean up JSON teacher_ids in ClassModel
+    from app.models.class_model import ClassModel
+    classes = db.query(ClassModel).all()
+    for cls in classes:
+        if cls.teacher_ids and teacher_id in cls.teacher_ids:
+            cls.teacher_ids = [tid for tid in cls.teacher_ids if tid != teacher_id]
+    
     db.delete(db_teacher)
     db.commit()
     return {"status": "success", "message": "Teacher removed from registry"}

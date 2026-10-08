@@ -9,7 +9,7 @@ class ClassModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=False)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=False)
-    course_id = Column(Integer, ForeignKey("courses.id"), nullable=True)
+    course_id = Column(Integer, ForeignKey("courses.id", ondelete="SET NULL"), nullable=True)
     academic_year = Column(String, nullable=False)
     semester = Column(String, nullable=False)
     teacher_ids = Column(JSON, default=[])

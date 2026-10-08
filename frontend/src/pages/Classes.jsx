@@ -126,11 +126,17 @@ export default function Classes() {
     const url = isEditing ? `${API_BASE_URL}/classes/${editingClassId}` : `${API_BASE_URL}/classes/`;
     const method = isEditing ? 'PUT' : 'POST';
 
+    const payload = {
+      ...classForm,
+      department_id: Number(classForm.department_id),
+      course_id: (classForm.course_id === '' || classForm.course_id === undefined) ? null : Number(classForm.course_id)
+    };
+
     try {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(classForm)
+        body: JSON.stringify(payload)
       });
       if (res.ok) {
         toast.success(isEditing ? "Updated" : "Created", "Academic class saved successfully.");
@@ -307,7 +313,7 @@ export default function Classes() {
                     <label>Course</label>
                     <NexusSelect 
                       options={(() => {
-                        const selectedDept = departments.find(d => d.id === classForm.department_id);
+                        const selectedDept = departments.find(d => String(d.id) === String(classForm.department_id));
                         const availableCourses = selectedDept ? selectedDept.courses : [];
                         return availableCourses.map(c => ({ 
                           label: `${c.name} (${c.specialization?.name || 'No Specialization'})`, 
@@ -354,7 +360,7 @@ export default function Classes() {
                 <div className="form-group">
                     <label>Assign Teachers</label>
                     <div className="multi-select-box">
-                      {teachers.filter(t => t.is_active).map(teacher => (
+                      {teachers.map(teacher => (
                         <div 
                           key={teacher.id}
                           className={`select-chip ${classForm.teacher_ids.includes(teacher.id) ? 'active' : ''}`}
@@ -368,7 +374,7 @@ export default function Classes() {
                           {teacher.name} {classForm.teacher_ids.includes(teacher.id) && <CheckCircle2 size={14} />}
                         </div>
                       ))}
-                      {teachers.filter(t => t.is_active).length === 0 && <span style={{fontSize: '0.8rem', color: '#94a3b8'}}>No active teachers available.</span>}
+                      {teachers.length === 0 && <span style={{fontSize: '0.8rem', color: '#94a3b8'}}>No teachers available.</span>}
                     </div>
                 </div>
                 </form>
